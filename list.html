@@ -6,23 +6,155 @@
 </head>
 <body>
 <div id="app">
+    <!-- array, object -->
     <ol>
         <li v-for="book in books">
             {{ book }}
         </li>
     </ol>
+    <hr>
+    <div v-for="(book, index) in books">
+        {{ index+1 }}. {{ book }}
+    </div>
+    <hr>
+    <li v-for="(book, index) of books">
+        {{ index+1 }}. {{ book }}
+    </li>
+    <hr>
+    <li v-for="(value, key) of book2">
+    {{ key }} : {{ value }}
+    </li>
+    <hr>
+    <!-- data collection -->
+    <table border=1>
+        <tr v-for="book of books3">
+            <td>
+                <img width=100 :src="'images/books/' + book.image" /> 
+                </td> 
+            </td>
+            <td>
+                title: {{ book.title }} <br>
+                description: {{ book.description }} <br>
+                authors: {{ book.authors }} <br>
+                price: {{ book.price }} 
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <!-- Atribut Key -->
+    <li v-for="(book, index) of books" v-bind:key="index">
+    {{ index+1 }}. {{ book }}
+    </li>
+    <hr>
+    <!-- Membatasi v-for menggunakan v-if -->
+    <ul>
+        <li v-for="(book, index) of books3" :key="index" v-if="book.price>=100000">
+        {{ book.title }}
+        </li>
+    </ul>
+    <hr>
+    <!-- Perubahan (mutation) Data Pada Array -->
+    <!-- 
+        ketik di console log
+        sort() & reverse()
+        vm.books.sort()
+
+        push() & pop()
+        vm.books.push('Mastering PHP 7')
+        
+        unshift() & shift()
+        vm.books.unshift('Mastering PHP 7')
+        
+        splice
+        vm.books.splice(2,0,'Mastering PHP 7')
+
+        filter
+        vm.books = vm.books.filter((book)=>{
+            return book[0]==='M'
+        })
+
+     -->
+     <hr>
+    <!-- properti computed -->
+    <ul>
+        <li v-for="(book, index) of booksPrefixM" :key="index">
+        {{ book }}
+        </li>
+    </ul>
+    <!-- fungsi set pada Vue -->
+    <!-- 
+        Vue.set(data_array, index_yang_akan_diganti, nilai_baru)
+        vm.$set(data_array, index_yang_akan_diganti, nilai_baru)
+     -->
 </div>
 <script type="text/javascript">
 var vm = new Vue({
     el: '#app',
     data: {
+        book2: {
+            id: 99,
+            title: 'C++ High Performance',
+            description: 'Write code that scales across CPU registers, multi-core, and machine clusters',
+            authors: 'Viktor Sehr, Björn Andrist',
+            publish_year: 2018,
+            price: 100000,
+        },
         books : [
             'C++ High Performance', 
             'Mastering Linux Security and Hardening', 
             'Python Programming Blueprints', 
             'Mastering PostgreSQL 10'
+        ],
+        books3 : [
+            {
+                id: 99,
+                title: 'C++ High Performance',
+                description: 'Write code that scales across CPU registers, multi-core, and machine clusters',
+                authors: 'Viktor Sehr, Björn Andrist',
+                publish_year: 2018,
+                price: 100000,
+                image: 'c++-high-performance.png'
+            },
+            {
+                id: 100,
+                title: 'Mastering Linux Security and Hardening',
+                description: 'A comprehensive guide to mastering the art of preventing your Linux system from getting compromised',
+                authors: 'Donald A. Tevault',
+                publish_year: 2018,
+                price: 125000,
+                image: 'mastering-linux-security-and-hardening.png'
+            },
+            {
+                id: 101,
+                title: 'Mastering PostgreSQL 10',
+                description: 'Master the capabilities of PostgreSQL 10 to efficiently manage and maintain your database',
+                authors: 'Hans-Jürgen Schönig',
+                publish_year: 2016,
+                price: 90000,
+                image: 'mastering-postgresql-10.png'
+            },
+            {
+                id: 102,
+                title: 'Python Programming Blueprints',
+                description: 'How to build useful, real-world applications in the Python programming language',
+                authors: 'Daniel Furtado, Marcus Pennington',
+                publish_year: 2017,
+                price: 75000,
+                image: 'python-programming-blueprints.png'
+            },
         ]
+    },
+    computed: {
+        booksPrefixM() {
+            return this.books.filter((book)=>{
+                return book[0]==='M'
+            })
+        }
     }
+})
+vm.book = Object.assign({}, vm.book, {
+  umur: 27,
+  status: 'Perjaka'
 })
 </script>
 </body>
