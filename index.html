@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Belajar Vue</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+  <style type="text/css">
+  .title{
+      color: green;
+  }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1 class="{{ class_h1 }}"> {{ message }} </h1>
+    <h1 v-bind:class="class_h1"> {{ message }} </h1>
+    <h1>{{ 'Pesan: ' + message }}</h1>
+    <h2 v-once>{{'Name: '+name2}}</h2>
+    <h2 v-html="name2"></h2>
+    <p>{{ teks }}</p>
+  </div>
+  <div id="app2">
+    <hr>
+    <h1>{{ counter }}</h1>
+    <button onclick="vn.increment()"> + </button>
+  </div>
+  <hr>
+  <div id="app3">
+    {{ fullName }}
+  </div>
+  <hr>
+  <div id="app4">
+    {{ now }}
+  </div>
+  <hr>
+  <div id="app5">
+    <!-- filters -->
+    <h1>Filters: {{ message | upper }}</h1>
+
+    <!-- methods -->
+    <h1>Methods: {{ upper(message) }}</h1>
+
+    <!-- computed -->
+    <h1>Computed: {{ messageUpperCase }}</h1>
+  </div>
+  <hr>
+  <div id="app6">
+    <h1> {{ price | formatCurrency('USD') }} </h1>
+    <h1> {{ price | formatCurrency('IDR') }} </h1>
+  </div>
+  <hr>
+  <div id=app7>
+    <h1> upper: {{ message | upper }} </h1>
+    <h1> reverse: {{ message | reverse }} </h1>
+    <h1> upper & reverse: {{ message | upper | reverse }} </h1>
+  </div>
+<script type="text/javascript">
+Vue.filter('upper', function (value) {
+  return value.toUpperCase()
+})
+var vs = new Vue({
+    el: '#app7',
+    data: {
+        message: 'Hello',
+    },
+    filters: {
+        /*upper (text) {
+            return text.toUpperCase()
+        },*/
+        reverse (text) {
+            return text.split('').reverse().join('')
+        }
+    }
+})
+</script>
+  <script type="text/javascript">
+  var vr = new Vue({
+      el: '#app6',
+      data: {
+          price: 500000,
+      },
+      filters: {
+          formatCurrency (value, currency) {
+              var formatter = new Intl.NumberFormat('id-ID', {
+                  style: 'currency',
+                  currency: currency,
+                  minimumFractionDigits: 2,
+              });
+              return formatter.format(value)
+          }
+      },
+  })
+  </script>
+  <script type="text/javascript">
+  var vq = new Vue({
+      el: '#app5',
+      data: {
+          message: 'Hello world!',
+      },
+      filters: {
+          upper (text) {
+              return text.toUpperCase()
+          }
+      },
+      methods: {
+          upper (text) {
+              return text.toUpperCase()
+          }
+      },
+      computed: {
+          messageUpperCase () {
+              return this.message.toUpperCase()
+          }
+      }
+  })
+  vq.message = "Ahay vue leh uga cuy"
+  </script>
+  <script type="text/javascript">
+  var vp = new Vue({
+      el: '#app4',
+      data: {
+        computed: {
+            now: function () {
+                return Date.now()
+            }
+        }
+      }
+  })
+  </script>
+
+  <script type="text/javascript">
+  var vo = new Vue({
+    el: '#app3',
+    data: {
+      firstName: 'Ascaliko',
+      lastName: 'san'
+    },
+    computed: {
+      fullName: function () {
+        return this.firstName + ' ' + this.lastName
+      }
+    }
+  })
+  </script>
+
+  <script type="text/javascript">
+  var vn = new Vue({
+    el: '#app2',
+    data: {
+        counter: 646
+    },
+    methods: {
+        increment () {
+            this.counter++
+        }
+    }
+})
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      counter: 0,
+      message: 'Hello, lets vue the world!',
+      class_h1: "title",
+      teks: 'Sungguh Reaktip',
+      name: 'Hafid', // string
+      name2: "<span style='color:red'>Hello World!</a>", // string
+      age: 33, // integer
+      gender: true, // boolean (Pria)
+      hobby: ['coding','sleeping'], // array
+      children: {
+        1: 'Asca',
+        2: 'liko',
+        3: 'io'
+      }
+    },
+    methods: {
+        increment () {
+            this.counter++
+        }
+    },
+    beforeCreate () {
+        console.log('before create: '+
+        'message = ' + this.message)
+    },
+    created () {
+        console.log('created: '+
+        'message = ' + this.message)
+    },
+    beforeMount() {
+       console.log('before mount: '+
+       'el = ' + this.$el.textContent)
+    },
+    mounted() {
+       console.log('mounted: '+
+       'el = ' + this.$el.textContent)
+    },
+    beforeUpdate() {
+      console.log('before update: '+
+      'el = ' + this.$el.textContent)
+    },
+    updated() {
+      console.log('update: '+
+      'el = ' + this.$el.textContent)
+    },
+    beforeDestroy () {
+        console.log('before destroy')
+    },
+    destroyed () {
+        console.log('destroyed')
+    },
+  })
+
+  vm.$watch('message', function (newValue, oldValue) {
+      console.log('Var message diubah dari '+oldValue+
+          ' menjadi '+newValue)
+  })
+
+  vm.message = 'Selamat Datang!'
+  // vm.$destroy()
+  </script>
+</body>
+</html>

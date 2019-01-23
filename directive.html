@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>directive vue</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+<div id="app0">
+  <button v-on:click="counter += 1">
+    Counter
+  </button>
+  <p>Button di atas telah diklik sebanyak {{ counter }} kali.</p>
+  <hr>
+<button v-on:click="info('selamat datang')">
+  Informasi
+</button>
+<hr>
+<a href="http://vuejs.org" v-on:click="link()">
+  Vuejs.org
+</a>
+<hr>
+<!-- mencegah reload halaman saat event submit -->
+<form v-on:submit.prevent="onSubmit"></form>
+
+<!-- ketika ditekan enter maka akan menjalankan fungsi submit -->
+<input v-on:keyup.enter="info('Terima kasih ' + $event.target.value)">
+
+<!-- Shift + Click -->
+<button v-on:click.ctrl="info('hola')">
+  CTRL + CLICK
+</button>
+</div>
+<hr>
+<div id="app">
+  <div v-if="nilai === 'A'">
+    Sempurna
+  </div>
+  <div v-else-if="nilai === 'B'">
+    Bagus
+  </div>
+  <div v-else-if="nilai === 'C'">
+    Cukup
+  </div>
+  <div v-else>
+    Kurang
+  </div>
+</div>
+<hr>
+<div id="app2">
+</div>
+<script>
+var vm = new Vue({
+    el: '#app',
+    data: {
+        nilai: "B",
+    },
+})
+var example1 = new Vue({
+  el: '#app0',
+  data: {
+    counter: 0
+  },
+    methods: {
+      info (text) {
+        alert(text)
+      },
+		link () {
+			alert('Go to link')
+			event.preventDefault()
+		}
+    }
+})
+</script>
+</body>
+</html>
