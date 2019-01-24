@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Form Vue</title>
+  </head>
+  <body>
+  	<hr>
+  	<div id="app" class="container-fluid">
+  		<div class="row">
+	  		<div class="col-sm-6">
+				<div class="card">
+				  <div class="card-body">
+				    <h5 class="card-title">Form Vue 1 | Input Binding</h5>
+					
+					<form>
+						<input type="number" name="price" class="form-control form-control-sm" v-model.number="price">
+						<br>
+				        <input type="text" name="title" class="form-control form-control-sm" :value="title" @input="title = $event.target.value" />
+				        {{ title }}
+					    <textarea name="description" class="form-control form-control-sm" v-model="description" placeholder="masukkan deskripsi"></textarea> 
+					    {{ description }}
+					    <br>
+						Paket <br>
+						<input type="radio" name="bukuA" value="A" v-model="paket">
+						<label for="bukuA">Buku Laravel</label>
+						<br>
+						<input type="radio" checked="true" name="bukuB" value="B" v-model="paket">
+						<label for="bukuB">Buku Vue</label>
+						<br>
+						<input type="radio" name="bukuAB" value="AB" v-model="paket">
+						<label for="bukuAB">Buku Laravel + Vue</label>
+						<br>
+						<span>Pilihan paket: {{ paket }}</span>
+						<br>
+						Hobi <br>
+						<select name="category" class="form-control form-control-sm" v-model="category">
+						    <option disabled value="">Please select one</option>
+						    <option value="01">Graphics Programming</option>
+						    <option value="02">Mobile Application Development</option>
+						    <option value="03">Virtual and Augmented Reality</option>
+						</select>
+						<span>Selected: {{ category }}</span>
+						<br>
+						Gender :
+						<input type="checkbox" name="checkbox" v-model="gender">
+						<label for="checkbox">{{ gender }}</label>
+						<br>
+						<input type="checkbox" name="hobby1" value="nonton" v-model="hobbies">
+						<label for="hobby1">Nonton</label>
+						<input type="checkbox" name="hobby2" value="jalan" v-model="hobbies">
+						<label for="hobby2">Jalan</label>
+						<input type="checkbox" name="hobby3" value="makan" v-model="hobbies">
+						<label for="hobby3">Makan</label>
+						<br>
+						<span>Pilihan hobi: {{ hobbies }}</span>
+						<hr>
+						<select name="categories" v-model="categories" multiple>
+						  <option v-for="option in options" :value="option.value">
+						    {{ option.text }}
+						  </option>
+						</select>
+						<span>Selected: {{ categories }}</span>
+					</form>
+				  </div>
+				</div>
+	  		</div>
+	  		<div class="col-sm-6">
+	  			<div class="card">
+	  				<div class="card-body">
+	  					<h5 class="card-title">Form Vue 2 | Filtering Data List</h5>
+	  					<form></form>
+	  				</div>
+	  			</div>
+	  		</div>
+  		</div>
+  	</div>
+
+    <!-- JavaScript Library Framework Vue -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script> -->
+	<!-- development version, includes helpful console warnings -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<!-- production version, optimized for size and speed -->
+	<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+    	var vm = new Vue({
+    		el: "#app",
+    		data: {
+    			price: 123,
+    			title: 'Mastering',
+    			description: "Vue is easy!",
+    			paket: '',
+    			category: '',
+    			gender: true,
+    			hobbies: [],
+    			categories: [],
+    			options: [
+			        { text: 'Graphics Programming', value: '01' },
+			        { text: 'Mobile Application Development', value: '02' },
+			        { text: 'Virtual and Augmented Reality', value: '03' }
+			    ]
+    		}
+    	})
+    </script>
+  </body>
+</html>
