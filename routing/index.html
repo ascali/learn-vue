@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Routing Vue</title>
+  </head>
+  <body>
+  	<hr>
+    <style type="text/css">
+      .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+      }
+      .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+      }
+    </style>
+  	<div id="app" class="container-fluid">
+      <router-link to="/">Home</router-link>
+      <router-link to="/home2">Home2</router-link>
+      <router-link to="/about">About</router-link>        
+      <router-link to="/books">Books</router-link>
+      <!-- <router-link :to="{ name: 'book', params: { bookId: 123 }}">Mastering Vue</router-link> -->
+      <hr>
+      <!-- <router-view></router-view> -->
+      <transition name="fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
+      <!-- <div class="row">
+	  		<div class="col-sm-6">
+				<div class="card">
+				  <div class="card-body">
+				    <h5 class="card-title">Routing Vue</h5>
+          </div>
+        </div>
+        </div>
+      </div> -->
+    </div>
+    <hr>
+    <!-- JavaScript Library Framework Vue -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script> -->
+	<!-- development version, includes helpful console warnings -->
+	<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script src="https://unpkg.com/vuex@3.0.1/dist/vuex.js"></script>
+
+	<!-- production version, optimized for size and speed -->
+	<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+    /*const routes = [
+        { path: '/', component: Home, alias: '/home' },
+        { path: '/about', component: About },
+        { path: '*', redirect: '/' }
+    ]*/
+
+    </script>
+    <script type="module">
+      // definisikan konfigurasi component
+      import { HomeComponent } from './HomeComponent.js'
+      import { BooksComponent } from './BooksComponent.js'
+      import { BookComponent } from './BookComponent.js'
+      
+      const Home = { template: '<div>Halaman Home</div>' }
+      // const Home = {
+      //   template: `
+      //     <transition name="slide">
+      //       <div> Halaman Home </div>
+      //     </transition>
+      //   `
+      // }
+      const About = { template: '<div>Halaman About</div>' }
+      /*const About = {
+        template: `
+          <transition name="slide">
+            <div> Halaman About </div>
+          </transition>
+        `
+      }*/
+      // mapping route path dengan componentnya
+      const routes = [
+
+          { path: '/', component: Home, alias: '/home' },
+          { path: '/home2', component: HomeComponent },
+          { path: '/about', component: About },
+          { path: '/books', component: BooksComponent },
+          { path: '/book/:id', name: 'book', component: BookComponent, props: true },
+          { path: '*', redirect: '/' }
+      ]
+      
+      // register routes pada objek router
+      const router = new VueRouter({
+          routes // short `routes: routes`
+      })
+
+      router.beforeEach((to, from, next) => {
+        if (to.matched.some(record => record.meta.login)) {
+            alert('Halaman ini hanya untuk user yang sudah login!')
+            next(false)
+        }
+        else{
+            next()
+        }
+      })
+
+      // register objek router pada objek Vue
+      var vm = new Vue({
+          el: '#app',
+          router,
+      })
+    </script>
+  </body>
+</html>

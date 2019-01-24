@@ -245,35 +245,35 @@
       })
     </script>
     <script type="text/javascript">
-var MixinHello = {
-    created: function () {
-        this.hello()
-    },
-    methods: {
-        hello: function () {
-            console.log('hello from mixin!')
+    var MixinHello = {
+        created: function () {
+            this.hello()
+        },
+        methods: {
+            hello: function () {
+                console.log('hello from mixin!')
+            }
         }
     }
-}
-var vm = new Vue({
-    el: '#app6',
-    mixins: [
-        MixinHello
-    ]
-})
-// inject a handler for `text` custom option
-Vue.mixin({
-  created: function () {
-    let text = this.$options.text
-    if (text) {
-      console.log(text)
-    }
-  }
-})
-new Vue({
-  text: 'hello!'
-})
-// => "hello!"
+    var vm = new Vue({
+        el: '#app6',
+        mixins: [
+            MixinHello
+        ]
+    })
+    // inject a handler for `text` custom option
+    Vue.mixin({
+      created: function () {
+        let text = this.$options.text
+        if (text) {
+          console.log(text)
+        }
+      }
+    })
+    new Vue({
+      text: 'hello!'
+    })
+    // => "hello!"
     </script>
   </body>
 </html>
