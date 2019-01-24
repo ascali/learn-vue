@@ -66,6 +66,7 @@
 						    {{ option.text }}
 						  </option>
 						</select>
+						<br>
 						<span>Selected: {{ categories }}</span>
 					</form>
 				  </div>
@@ -75,10 +76,63 @@
 	  			<div class="card">
 	  				<div class="card-body">
 	  					<h5 class="card-title">Form Vue 2 | Filtering Data List</h5>
-	  					<form></form>
+	  					<form>
+							<input type="text" class="form-control form-control-sm" v-model="keyword" placeholder="ketikkan kata kunci">
+							<ul>
+							    <li v-for="(book, index) of filterBooks" :key="index">
+							    {{ book }}
+							    </li>
+							</ul>
+	  					</form>
+	  					<hr>
+	  					<h5 class="card-title">Form Vue 3 | Handling Submit Form & Validation</h5>
+						<form id="myForm" ref="formBook" @submit.prevent="submitForm($event)" action="http://example.com/add-product" method="post">
+
+						    <p v-if="errors.length">
+						        <b>Please correct the following error(s):</b>
+						        <ul>
+						            <li v-for="error in errors">{{ error }}</li>
+						        </ul>
+						    </p>
+
+						    <label>Title:</label>
+						    <input name="title2" ref="title" type="text" v-model="title" class="form-control form-control-sm">
+
+						    <label>Description:</label>
+						    <textarea name="description2" ref="description" v-model="description" class="form-control form-control-sm"></textarea>
+
+						    <label>Authors:</label>
+						    <input name="authors" ref="authors" type="text" v-model="authors" class="form-control form-control-sm">
+
+						    <label>Price:</label>
+						    <input name="price" ref="price" type="number" v-model.number="price" class="form-control form-control-sm">
+
+						    <label>Categories:</label>
+						    <select name="categories" ref="categories" v-model="categories" multiple class="form-control form-control-sm">
+						        <option v-for="option in options" :value="option.value">
+						            {{ option.text }}
+						        </option>
+						    </select>
+						    <br>
+						    <label>Cover:</label>
+							<input name="cover" ref="cover" type="file">
+						    <br>
+						    <label></label>
+						    <input type="submit" value="Submit" class="btn btn-sm btn-primary">  
+						</form>
 	  				</div>
 	  			</div>
 	  		</div>
+  		</div>
+  		<hr>
+  		<div class="row">
+  			<div class="col-sm-6">
+  				<div class="card">
+  					<div class="card-body">
+  						<h5 class="card-title">Form Vue 4 | </h5>
+  					</div>
+  				</div>
+  			</div>
   		</div>
   	</div>
 
@@ -99,7 +153,10 @@
     		data: {
     			price: 123,
     			title: 'Mastering',
+    			title2: 'Mastering',
     			description: "Vue is easy!",
+    			description2: "Vue is easy!",
+    			authors: 'Asca',
     			paket: '',
     			category: '',
     			gender: true,
@@ -109,7 +166,99 @@
 			        { text: 'Graphics Programming', value: '01' },
 			        { text: 'Mobile Application Development', value: '02' },
 			        { text: 'Virtual and Augmented Reality', value: '03' }
-			    ]
+			    ],
+				keyword: '',
+				books : [
+				    'C++ High Performance', 
+				    'Mastering Linux Security and Hardening', 'Python Programming Blueprints', 
+				    'Mastering PostgreSQL 10'
+				],
+				errors: []
+    		},
+    		computed: {
+		        filterBooks() {
+		            return this.books.filter((book)=>{
+		                return book.includes(this.keyword)
+		            })
+		        }
+    		}, 
+    		methods: {
+		        submitForm(event) {
+		            console.log(event)
+		            // kode validasi
+		            this.errors = []
+		            if(this.title.length < 3){
+		                this.errors.push('Title minimal 3 karakter!')
+		                this.$refs.title.select()
+		            }
+		            if(this.description.length > 500){
+		                this.errors.push('Description maximal 500 karakter!')
+		                this.$refs.description.select()
+		            } 
+		            if(this.authors.length < 3){
+		                this.errors.push('Authors minimal 3 karakter!')
+		                this.$refs.authors.select()
+		            } 
+		            if(this.price < 0){
+		                this.errors.push('Price tidak boleh minus!')
+		                this.$refs.price.select()
+		            } 
+		            if(this.categories.length === 0){
+		                this.errors.push('Pilih minimal 1 category!')
+		                this.$refs.categories.focus()
+		            } 
+
+		            if( this.errors.length === 0 ){
+		                alert('Terima kasih telah mengisi data dengan benar!')
+		            	// cara 1
+		            	// persiapkan data
+		            	/*let formData = new FormData()
+		            	formData.append('title2', this.title2)
+		            	formData.append('description2', this.description2)
+		            	formData.append('authors', this.authors)
+		            	formData.append('price', this.price)
+		            	formData.append('categories', this.categories)*/
+		                // cara 2
+		            	// get file yang dibrowse user
+						let cover = this.$refs.cover.files[0]
+						let myForm = document.getElementById('myForm');
+						formData = new FormData(myForm);
+						// tambahkan ke object formData
+						formData.append("cover", cover);
+						// cara 3
+						// persiapkan data
+						/*let formBook = this.$refs.formBook
+						formData = new FormData(formBook);*/
+		                
+		                // persiapkan data
+					    // let formBook = this.$refs.formBook
+					    // formData = new FormData(formBook);
+
+					    // kirim data ke server
+					    let xhttp = new XMLHttpRequest() // create objek XMLHttp
+
+					    // definisikan fungsi ketika terjadi perubahan state
+					    xhttp.onreadystatechange = function() {
+					        // state ini menunjukkan data terkirim dan diterima server dengan baik
+					        if (this.readyState == 4 && this.status == 200) {
+					            // respon text dari server
+					            console.log(this.responseText)
+					        }
+					    }
+					    // sesuaikan dengan lokasi file index.php di lokasi komputer kamu
+					    xhttp.open("POST", "http://localhost:1507/api.php", true)
+
+					    // bisa juga langsung nama filenya jika berada dalam satu folder yang sama
+					    // xhttp.open("POST", "index.php", true)
+
+					    // kirim objek formData
+					    xhttp.send(formData)
+		            }
+
+
+		            // block redirect ke action
+		            // event.preventDefault()
+		        }
     		}
     	})
     </script>
